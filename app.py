@@ -2,6 +2,7 @@
 import streamlit as st      # Main Streamlit app framework
 import pandas as pd         # For working with tabular data
 import pydeck as pdk        # For interactive map visualization
+from streamlit_folium import st_folium
 
 # ----------------------------------------------------------
 # Create a sample dataset of Texas cities with coordinates
@@ -16,12 +17,12 @@ city_data = pd.DataFrame({
 # Set up Streamlit page layout and title
 # ----------------------------------------------------------
 st.set_page_config(layout="wide")  # Use wide layout for 2-column view
-st.title("Texas City Dashboard Explorer")  # App title at the top
+st.title("BRIDGE Analysis: Texas City Dashboard Explorer")  # App title at the top
 
 # ----------------------------------------------------------
 # Create two side-by-side columns (map on left, dashboard on right)
 # ----------------------------------------------------------
-left_col, right_col = st.columns([1, 2])  # Width ratio: 1 for map, 2 for dashboard
+left_col, right_col = st.columns([1.5, 2])  # Width ratio: 1 for map, 2 for dashboard
 
 # ----------------------------------------------------------
 # Initialize session state to remember selected city
@@ -29,44 +30,38 @@ left_col, right_col = st.columns([1, 2])  # Width ratio: 1 for map, 2 for dashbo
 if 'selected_city' not in st.session_state:
     st.session_state['selected_city'] = None  # Initialize with no city selected
 
-# ----------------------------------------------------------
-# LEFT COLUMN: Interactive Texas Map
-# ----------------------------------------------------------
+# -----------------------
+# LEFT PANEL: Folium Map
+# -----------------------
 with left_col:
-    st.subheader("Select a city:")
+    st.subheader("Click a marker or choose from dropdown")
 
-    # Create a PyDeck scatterplot layer to show city markers
-    layer = pdk.Layer(
-        'ScatterplotLayer',  # Type of visualization
-        data=city_data,  # Data to use (lat/lon of cities)
-        get_position='[Longitude, Latitude]',  # Coordinates
-        get_radius=70000,  # Size of each circle on map
-        get_fill_color='[200, 30, 0, 160]',  # Color of the markers (red)
-        pickable=True  # Enable tooltips when hovering
-    )
+    # Create Folium map
+    m = folium.Map(location=[31.0, -99.0], zoom_start=6)
 
-    # Set the initial view of the map (centered over Texas)
-    view_state = pdk.ViewState(
-        latitude=31.0,
-        longitude=-99.0,
-        zoom=5.5
-    )
+    # Add city markers
+    for i, row in city_data.iterrows():
+        folium.Marker(
+            location=[row['Latitude'], row['Longitude']],
+            popup=row['City'],
+            tooltip=row['City'],
+        ).add_to(m)
 
-    # Combine map layer and view into a Deck object
-    r = pdk.Deck(
-        layers=[layer],
-        initial_view_state=view_state,
-        tooltip={"text": "{City}"}  # Show city name when hovered
-    )
+    # Display map
+    map_data = st_folium(m, width=400, height=500)
 
-    # Display the interactive map
-    st.pydeck_chart(r)
+    # Detect click from marker popup or fallback to dropdown
+    clicked_city = None
+    if map_data.get("last_object_clicked"):
+        clicked_city = map_data["last_object_clicked"].get("popup")
 
-    # Provide a dropdown menu to select a city manually
-    selected_city = st.selectbox("Or choose from list:", city_data['City'].tolist())
+    # Fallback if nothing clicked
+    if not clicked_city:
+        clicked_city = st.selectbox("Or choose from list:", city_data['City'].tolist())
 
-    # Save selected city to session state for use in right panel
-    st.session_state['selected_city'] = selected_city
+    # Save to session state
+    st.session_state['selected_city'] = clicked_city
+
 
 # ----------------------------------------------------------
 # RIGHT COLUMN: Dynamic Dashboard Based on City

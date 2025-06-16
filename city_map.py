@@ -1,7 +1,6 @@
 import folium
 from streamlit_folium import st_folium
 import streamlit as st
-import json
 
 CITY_DATA = {
     "All data": [31.0, -99.0],
@@ -29,10 +28,14 @@ def render_city_map():
     map_data = st_folium(m, width=400, height=500)
     
     clicked_city = None
-    if map_data and map_data.get("last_object_clicked"):
-        #popup_value = map_data["last_object_clicked"].get("popup")[8:]
-        st.write("clicked_city:", clicked_city)
-        #st.write("POPUP VALUE:", popup_value)
+    popup = map_data.get("last_object_clicked", {}).get("popup")
+    
+    if popup:
+        popup_value = popup[8:]
+        st.write("POPUP VALUE:", popup_value)
+        clicked_city = popup_value
+    else:
+        st.write("No city popup data available.")
     
     if (clicked_city and 
         ("selected_city" not in st.session_state or st.session_state["selected_city"] != clicked_city)
@@ -40,7 +43,3 @@ def render_city_map():
         st.session_state["selected_city"] = clicked_city
         st.write("CLICKED CITY:", clicked_city)
         st.rerun()
-    else:
-        st.write("MAP DATA DEBUG:", json.dumps(map_data, indent=2))
-
-

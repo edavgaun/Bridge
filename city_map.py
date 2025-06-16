@@ -30,8 +30,9 @@ def render_city_map():
     
     clicked_city = None
     if map_data and map_data.get("last_object_clicked"):
-        popup_value = map_data["last_object_clicked"].get("popup")[8:]
-        st.write("POPUP VALUE:", popup_value)
+        #popup_value = map_data["last_object_clicked"].get("popup")[8:]
+        st.write("clicked_city:", clicked_city)
+        #st.write("POPUP VALUE:", popup_value)
     
     if (clicked_city and 
         ("selected_city" not in st.session_state or st.session_state["selected_city"] != clicked_city)

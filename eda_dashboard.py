@@ -4,10 +4,9 @@ def render_eda(city):
     st.subheader(f"EDA Dashboard for {city}")
 
     demo_data = {
-        'Houston': [10, 20, 30],
-        'Dallas': [5, 25, 15],
-        'Austin': [15, 30, 10],
-        'San Antonio': [25, 10, 5]
+        'All data': [12, 18, 24],
+        'El sol': [8, 16, 12],
+        'Uvalde': [14, 22, 20]
     }
 
     st.write(f"Population estimate for {city}:")

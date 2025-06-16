@@ -1,34 +1,33 @@
-import streamlit as st
 import folium
 from streamlit_folium import st_folium
 
-# Hardcoded Texas city coordinates
 CITY_DATA = {
-    "All data": [31.0, -99.0],         # placeholder central TX
-    "El sol": [28.7, -100.5],          # approximate location
-    "Uvalde": [29.2097, -99.7862],     # actual Uvalde, TX
+    "All data": [31.0, -99.0],
+    "El sol": [28.7, -100.5],
+    "Uvalde": [29.2097, -99.7862],
 }
 
 def render_city_map():
-    """Render the Folium map and return the clicked city (if any)"""
+    """Render the map and return clicked city name (if any)"""
+    m = folium.Map(location=[29.5, -99.5], zoom_start=6)
 
-    # Create map centered on Texas
-    m = folium.Map(location=[31.0, -99.0], zoom_start=6)
-
-    # Add markers
     for city, coords in CITY_DATA.items():
+        if city == "All data":
+            # Use a distinct icon for "All data"
+            icon = folium.Icon(color="green", icon="star", prefix="fa")  # FontAwesome star
+        else:
+            # Use a simple text label for other cities
+            icon = folium.DivIcon(html=f"""<div style="font-size: 14px; font-weight: bold;">{city}</div>""")
+
         folium.Marker(
-        location=coords,
-        popup=city,
-        tooltip=city,
-        icon=folium.Icon(icon="info-sign", prefix="glyphicon")
+            location=coords,
+            popup=city,
+            tooltip=city,
+            icon=icon
         ).add_to(m)
 
-
-    # Render the map
     map_data = st_folium(m, width=400, height=500)
 
-    # Return clicked city (from popup)
     if map_data and map_data.get("last_object_clicked"):
         return map_data["last_object_clicked"].get("popup")
 

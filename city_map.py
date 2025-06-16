@@ -35,8 +35,8 @@ def render_city_map():
         if popup_value and popup_value.startswith("Active: "):
             clicked_city = popup_value[8:]
     
-    if clicked_city:
+    if clicked_city and st.session_state.get("selected_city") != clicked_city:
+        st.session_state["selected_city"] = clicked_city
         st.write("CLICKED CITY:", clicked_city)  # Confirm this
-        if st.session_state.get("selected_city") != clicked_city:
-            st.session_state["selected_city"] = clicked_city
         st.rerun()
+

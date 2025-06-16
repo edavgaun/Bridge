@@ -13,11 +13,9 @@ def render_city_map():
 
     for city, coords in CITY_DATA.items():
         if city == "All data":
-            # Use a distinct icon for "All data"
-            icon = folium.Icon(color="green", icon="star", prefix="fa")  # FontAwesome star
+            icon = folium.Icon(color="green", icon="star", prefix="fa")  # distinct icon
         else:
-            # Use a simple text label for other cities
-            icon = folium.DivIcon(html=f"""<div style="font-size: 14px; font-weight: bold;">{city}</div>""")
+            icon = folium.Icon(color="blue", icon="info-sign", prefix="glyphicon")  # normal icon
 
         folium.Marker(
             location=coords,

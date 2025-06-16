@@ -18,7 +18,7 @@ city_data = pd.DataFrame({
 # Set up Streamlit page layout and title
 # ----------------------------------------------------------
 st.set_page_config(layout="wide")  # Use wide layout for 2-column view
-st.title("BRIDGE Analysis: Texas City Dashboard Explorer")  # App title at the top
+st.title("Texas City Dashboard Explorer")  # App title at the top
 
 # ----------------------------------------------------------
 # Create two side-by-side columns (map on left, dashboard on right)
@@ -69,12 +69,13 @@ with left_col:
 # ----------------------------------------------------------
 with right_col:
     city = st.session_state['selected_city']
-    st.subheader(f"Dashboard for {city}")
+    st.subheader(f"BRIDGE Analysis")
 
     # Radio buttons for dashboard type
-    view_type = st.radio("Select view:", ["Exploratory Data Analysis (EDA)", "Latent Dirichlet Allocation (LDA) Analysis"])
+    view_type = st.radio("Select view:", ["Exploratory Data Analysis (EDA)", 
+                                          "Latent Dirichlet Allocation (LDA) Analysis"])
 
-    if view_type == "EDA":
+    if view_type == "Exploratory Data Analysis (EDA)":
         # Simple EDA charts per city (dummy data for now)
         if city == 'Houston':
             st.write("Population: 2.3M")
@@ -89,7 +90,7 @@ with right_col:
             st.write("Population: 1.5M")
             st.line_chart([25, 10, 5])
 
-    elif view_type == "LDA Analysis":
+    elif view_type == "Latent Dirichlet Allocation (LDA) Analysis":
         # Placeholder for topic modeling results
         st.markdown("### LDA Topic Modeling Results")
 

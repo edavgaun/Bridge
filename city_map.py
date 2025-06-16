@@ -1,5 +1,6 @@
 import folium
 from streamlit_folium import st_folium
+import streamlit as st
 
 CITY_DATA = {
     "All data": [31.0, -99.0],
@@ -8,14 +9,14 @@ CITY_DATA = {
 }
 
 def render_city_map():
-    """Render the map and return clicked city name (if any)"""
+    """Render the map and update session state when city is clicked"""
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
 
     for city, coords in CITY_DATA.items():
         if city == "All data":
-            icon = folium.Icon(color="green", icon="star", prefix="fa")  # distinct icon
+            icon = folium.Icon(color="green", icon="star", prefix="fa")
         else:
-            icon = folium.Icon(color="blue", icon="info-sign", prefix="glyphicon")  # normal icon
+            icon = folium.Icon(color="blue", icon="info-sign", prefix="glyphicon")
 
         folium.Marker(
             location=coords,
@@ -25,7 +26,15 @@ def render_city_map():
 
     map_data = st_folium(m, width=400, height=500)
 
+    # 🧠 Get clicked city name
+    clicked_city = None
     if map_data and map_data.get("last_object_clicked"):
-        return map_data["last_object_clicked"].get("popup")
+        clicked_city = map_data["last_object_clicked"].get("tooltip")
 
-    return None
+    # ✅ If user clicked a new city, store it and rerun app
+    if clicked_city and st.session_state.get("selected_city") != clicked_city:
+        st.session_state["selected_city"] = clicked_city
+        st.rerun()
+
+    # 🏁 Return the currently selected city (if needed elsewhere)
+    return st.session_state.get("selected_city")

@@ -72,7 +72,7 @@ with right_col:
     st.subheader(f"Dashboard for {city}")
 
     # Radio buttons for dashboard type
-    view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
+    view_type = st.radio("Select view:", ["Exploratory Data Analysis (EDA)", "Latent Dirichlet Allocation (LDA) Analysis"])
 
     if view_type == "EDA":
         # Simple EDA charts per city (dummy data for now)

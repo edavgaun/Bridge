@@ -21,7 +21,7 @@ def render_city_map():
         folium.Marker(
             location=coords,
             tooltip=city,
-            popup='Active City:/n{}'.format(city),
+            popup='Active: {}'.format(city),
             icon=icon
         ).add_to(m)
 

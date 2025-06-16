@@ -4,10 +4,9 @@ from streamlit_folium import st_folium
 
 # Hardcoded Texas city coordinates
 CITY_DATA = {
-    "Houston": [29.7604, -95.3698],
-    "Dallas": [32.7767, -96.7970],
-    "Austin": [30.2672, -97.7431],
-    "San Antonio": [29.4241, -98.4936],
+    "All data": [31.0, -99.0],         # placeholder central TX
+    "El sol": [28.7, -100.5],          # approximate location
+    "Uvalde": [29.2097, -99.7862],     # actual Uvalde, TX
 }
 
 def render_city_map():

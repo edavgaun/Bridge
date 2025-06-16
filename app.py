@@ -28,19 +28,7 @@ with left_col:
 # RIGHT: Get city from session state (not from function return)
 with right_col:
     city = st.session_state.get("selected_city", None)
-
     if city:
-        st.subheader(f"Analysis for {city}")
-        view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
-
-        if view_type == "EDA":
-            render_eda(city)
-        elif view_type == "LDA Analysis":
-            file_map = get_html_file_map()
-            match = [name for name in file_map if name.lower() == city.lower()]
-            if match:
-                render_lda(file_map, match[0])
-            else:
-                st.warning(f"No LDA file found for {city}")
+        st.write(f"You selected: **{city}**")
     else:
-        st.info("Click a city on the map to begin.")
+        st.info("No city selected yet.")

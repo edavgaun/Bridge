@@ -68,22 +68,38 @@ with left_col:
 # RIGHT COLUMN: Dynamic Dashboard Based on City
 # ----------------------------------------------------------
 with right_col:
-    # Show the city name in the panel header
-    st.subheader(f"Dashboard for {st.session_state['selected_city']}")
+    city = st.session_state['selected_city']
+    st.subheader(f"Dashboard for {city}")
 
-    # Display a simple chart depending on which city is selected
-    if st.session_state['selected_city'] == 'Houston':
-        st.write("Population: 2.3M")
-        st.line_chart([10, 20, 30])  # Placeholder line chart
+    # Radio buttons for dashboard type
+    view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
 
-    elif st.session_state['selected_city'] == 'Dallas':
-        st.write("Population: 1.3M")
-        st.bar_chart([5, 25, 15])  # Placeholder bar chart
+    if view_type == "EDA":
+        # Simple EDA charts per city (dummy data for now)
+        if city == 'Houston':
+            st.write("Population: 2.3M")
+            st.line_chart([10, 20, 30])
+        elif city == 'Dallas':
+            st.write("Population: 1.3M")
+            st.bar_chart([5, 25, 15])
+        elif city == 'Austin':
+            st.write("Population: 950K")
+            st.area_chart([15, 30, 10])
+        elif city == 'San Antonio':
+            st.write("Population: 1.5M")
+            st.line_chart([25, 10, 5])
 
-    elif st.session_state['selected_city'] == 'Austin':
-        st.write("Population: 950K")
-        st.area_chart([15, 30, 10])  # Placeholder area chart
+    elif view_type == "LDA Analysis":
+        # Placeholder for topic modeling results
+        st.markdown("### LDA Topic Modeling Results")
 
-    elif st.session_state['selected_city'] == 'San Antonio':
-        st.write("Population: 1.5M")
-        st.line_chart([25, 10, 5])  # Another line chart
+        # Replace with your real topic modeling output (static for now)
+        st.markdown(f"""
+        **Top Topics for {city}:**
+        - Topic 1: _education, training, workforce_
+        - Topic 2: _technology, manufacturing, automation_
+        - Topic 3: _policy, funding, infrastructure_
+        """)
+
+        # Optional: show LDA word clouds, tables, etc.
+        st.info("This section could show word clouds, topic distributions, or interactive visualizations.")

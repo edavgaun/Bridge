@@ -27,7 +27,6 @@ def render_city_map():
         ).add_to(m)
 
     map_data = st_folium(m, width=400, height=500)
-    st.write("RAW map_data JSON:", json.dumps(map_data, indent=2))
     
     clicked_city = None
     if map_data and map_data.get("last_object_clicked"):
@@ -36,8 +35,17 @@ def render_city_map():
         if popup_value and popup_value.startswith("Active: "):
             clicked_city = popup_value[8:]
     
-    if clicked_city and st.session_state.get("selected_city") != clicked_city:
+    if (
+        clicked_city
+        and (
+            "selected_city" not in st.session_state
+            or st.session_state["selected_city"] != clicked_city
+        )
+    ):
         st.session_state["selected_city"] = clicked_city
-        st.write("CLICKED CITY:", clicked_city)  # Confirm this
+        st.write("CLICKED CITY:", clicked_city)
         st.rerun()
+    else:
+        st.write("MAP DATA DEBUG:", json.dumps(map_data, indent=2))
+
 

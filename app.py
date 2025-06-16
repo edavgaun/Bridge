@@ -18,6 +18,13 @@ city_data = pd.DataFrame({
 # Set up Streamlit page layout and title
 # ----------------------------------------------------------
 st.set_page_config(layout="wide")  # Use wide layout for 2-column view
+st.markdown("""
+    <style>
+        .main > div:first-child {
+            padding-top: 0.5rem !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 st.title("Texas City Dashboard Explorer")  # App title at the top
 
 # ----------------------------------------------------------

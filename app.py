@@ -28,6 +28,7 @@ with left_col:
 # RIGHT: show view based on selected city
 with right_col:
     city = st.session_state.get("selected_city", None)
+    st.write("RAW city from session_state:", city)
 
     if city:
         st.subheader(f"Analysis for {city}")

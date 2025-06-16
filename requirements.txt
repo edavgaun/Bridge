@@ -2,4 +2,4 @@ streamlit
 pandas
 pydeck
 folium
-streamlit-folium
+streamlit-leaflet

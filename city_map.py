@@ -13,30 +13,26 @@ def render_city_map():
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
 
     for city, coords in CITY_DATA.items():
-        icon = folium.Icon(
-            color="green" if city == "All data" else "blue",
-            icon="star" if city == "All data" else "info-sign",
-            prefix="fa" if city == "All data" else "glyphicon"
-        )
-        folium.Marker(
+        style = {
+            "color": "green" if city == "All data" else "blue",
+            "fill_color": "green" if city == "All data" else "blue"
+        }
+
+        folium.CircleMarker(
             location=coords,
-            tooltip=city,
+            radius=8,
+            color=style["color"],
+            fill=True,
+            fill_color=style["fill_color"],
+            fill_opacity=0.9,
             popup=f"Active: {city}",
-            icon=icon
+            tooltip=city,
         ).add_to(m)
 
     map_data = st_folium(m, width=700, height=500)
+    popup_text = map_data["last_object_clicked"]["popup"]
+    city = popup_text.removeprefix("Active: ").strip()
 
-    # If user clicked a marker, extract the city
-    try:
-        popup_text = map_data["last_object_clicked"]["popup"]
-        clicked_city = popup_text.removeprefix("Active: ").strip()
-    except (TypeError, KeyError):
-        clicked_city = None
-
-    if clicked_city:
-        if st.session_state.get("selected_city") != clicked_city:
-            st.session_state["selected_city"] = clicked_city
-            st.rerun()
-        else:
-            st.write("CLICKED CITY:", clicked_city)
+    if st.session_state.get("selected_city") != city:
+        st.session_state["selected_city"] = city
+        st.rerun()

@@ -15,7 +15,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App title
-st.title("Texas City Dashboard Explorer")
+st.title("Texas Newspapers - Dashboard Explorer")
 
 # Create layout
 left_col, right_col = st.columns([1, 2])

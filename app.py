@@ -1,10 +1,8 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 from eda_dashboard import render_eda
 from lda_viewer import render_lda
 from load_data import get_html_file_map
-
-# MUST be the first Streamlit command
-st.set_page_config(layout="wide")
 
 # Remove default padding
 st.markdown("""

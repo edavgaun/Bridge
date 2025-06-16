@@ -5,7 +5,9 @@ from load_data import get_html_file_map
 from city_map import render_city_map
 
 # Set layout first
-st.set_page_config(layout="wide")
+if "initialized" not in st.session_state:
+    st.set_page_config(layout="wide")
+    st.session_state["initialized"] = True
 
 # Optional: Remove default top padding
 st.markdown("""

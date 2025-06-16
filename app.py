@@ -25,10 +25,29 @@ with left_col:
     st.subheader("Click a City")
     render_city_map()
 
-# RIGHT: Get city from session state (not from function return)
+# RIGHT: Dashboard view
 with right_col:
     city = st.session_state.get("selected_city", None)
+
     if city:
-        st.write(f"You selected: **{city}**")
+        st.subheader(f"Analysis for {city}")
+
+        # Show radio button to switch views
+        view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
+
+        if view_type == "EDA":
+            render_eda(city)
+
+        elif view_type == "LDA Analysis":
+            file_map = get_html_file_map()
+
+            # Match by city name inside the HTML filenames
+            match = [key for key in file_map if city.lower() in key.lower()]
+
+            if match:
+                render_lda(file_map, match[0])  # display the matching HTML
+            else:
+                st.warning(f"No LDA file found for {city}")
     else:
-        st.info("No city selected yet.")
+        st.info("Click a city on the map to begin.")
+

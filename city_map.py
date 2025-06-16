@@ -29,7 +29,7 @@ def render_city_map():
 
     clicked_city = None
     if map_data and map_data.get("last_object_clicked"):
-        clicked_city = map_data["last_object_clicked"].get("name")
+        clicked_city = map_data["last_object_clicked"].get("popup")[8:]
 
     if clicked_city and st.session_state.get("selected_city") != clicked_city:
         st.session_state["selected_city"] = clicked_city

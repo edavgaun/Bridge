@@ -1,6 +1,7 @@
 import folium
 from streamlit_folium import st_folium
 import streamlit as st
+import json
 
 CITY_DATA = {
     "All data": [31.0, -99.0],
@@ -26,7 +27,7 @@ def render_city_map():
         ).add_to(m)
 
     map_data = st_folium(m, width=400, height=500)
-    st.write("MAP DATA DEBUG:", map_data)  # Add this
+    st.write("RAW map_data JSON:", json.dumps(map_data, indent=2))
     
     clicked_city = None
     if map_data and map_data.get("last_object_clicked"):

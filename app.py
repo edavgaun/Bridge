@@ -2,6 +2,7 @@
 import streamlit as st      # Main Streamlit app framework
 import pandas as pd         # For working with tabular data
 import pydeck as pdk        # For interactive map visualization
+import folium
 from streamlit_folium import st_folium
 
 # ----------------------------------------------------------

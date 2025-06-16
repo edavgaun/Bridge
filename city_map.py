@@ -21,20 +21,18 @@ def render_city_map():
         folium.Marker(
             location=coords,
             tooltip=city,
+            popup='Active City:/n{}'.format(city),
             icon=icon
         ).add_to(m)
 
     map_data = st_folium(m, width=400, height=500)
 
-    # 🧠 Get clicked city name
     clicked_city = None
     if map_data and map_data.get("last_object_clicked"):
-        clicked_city = map_data["last_object_clicked"].get("tooltip")
+        clicked_city = map_data["last_object_clicked"].get("popup")  # not tooltip
 
-    # ✅ If user clicked a new city, store it and rerun app
     if clicked_city and st.session_state.get("selected_city") != clicked_city:
         st.session_state["selected_city"] = clicked_city
         st.rerun()
 
-    # 🏁 Return the currently selected city (if needed elsewhere)
     return st.session_state.get("selected_city")

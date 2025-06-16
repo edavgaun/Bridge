@@ -1,3 +1,36 @@
+import streamlit as st
+from eda_dashboard import render_eda
+from lda_viewer import render_lda
+from load_data import get_html_files
+
+st.set_page_config(layout="wide")
+
+# Optional: remove top spacing
+st.markdown("""<style>.block-container {padding-top: 1rem;}</style>""", unsafe_allow_html=True)
+
+st.title("Texas City Dashboard Explorer")
+
+left_col, right_col = st.columns([1, 2])
+
+# LEFT: City selector
+with left_col:
+    st.subheader("Select a City")
+    city = st.selectbox("Choose:", ['Houston', 'Dallas', 'Austin', 'San Antonio'])
+    st.session_state['selected_city'] = city
+
+# RIGHT: Dashboard + View Type
+with right_col:
+    view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
+
+    if view_type == "EDA":
+        render_eda(st.session_state['selected_city'])
+    elif view_type == "LDA Analysis":
+        file_map = get_html_files()
+        if file_map:
+            display_name = st.selectbox("Choose a topic model:", list(file_map.keys()))
+            render_lda(display_name, file_map)
+        else:
+            st.warning("No LDA files found in folder.")
 # Import necessary libraries
 import streamlit as st      # Main Streamlit app framework
 import pandas as pd         # For working with tabular data

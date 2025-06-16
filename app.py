@@ -20,20 +20,20 @@ city_data = pd.DataFrame({
 st.set_page_config(layout="wide")  # Use wide layout for 2-column view
 st.markdown("""
     <style>
-        /* Hide the default Streamlit header */
-        header, footer, .block-container > div:first-child {
+        /* Hide Streamlit's default header bar */
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+
+        /* Remove top padding/margin from main container */
+        .block-container {
             padding-top: 0rem !important;
             margin-top: 0rem !important;
         }
 
-        /* Remove vertical space above the first container */
-        .main .block-container {
-            padding-top: 1rem;
-        }
-
-        /* Optional: shrink spacing under title if needed */
-        .main h1 {
+        /* Reduce spacing above main title */
+        .block-container h1 {
             margin-top: 0rem;
+            padding-top: 0rem;
         }
     </style>
 """, unsafe_allow_html=True)

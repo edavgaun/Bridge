@@ -19,10 +19,12 @@ def render_city_map():
     # Add markers
     for city, coords in CITY_DATA.items():
         folium.Marker(
-            location=coords,
-            popup=city,
-            tooltip=city,
+        location=coords,
+        popup=city,
+        tooltip=city,
+        icon=folium.Icon(icon="info-sign", prefix="glyphicon")
         ).add_to(m)
+
 
     # Render the map
     map_data = st_folium(m, width=400, height=500)

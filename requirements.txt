@@ -1,4 +1,5 @@
 streamlit
 pandas
 pydeck
+import folium
 streamlit-folium

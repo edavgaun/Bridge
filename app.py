@@ -28,6 +28,8 @@ with left_col:
 # RIGHT: Dashboard view
 with right_col:
     city = st.session_state.get("selected_city", None)
+    st.write("DEBUG file_map:", file_map)
+    st.write("DEBUG city:", city)
 
     if city:
         st.subheader(f"Analysis for {city}")

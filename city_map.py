@@ -10,20 +10,28 @@ CITY_DATA = {
 
 def render_city_map():
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
-    m.add_child(folium.LatLngPopup())
+    m.add_child(folium.LatLngPopup())  # to enable click capture
 
-    # FIXED: Use default folium icons to avoid broken image links
     for city, coords in CITY_DATA.items():
-        folium.Marker(
+        color = "green" if city == "All data" else "blue"
+        folium.CircleMarker(
             location=coords,
-            tooltip=city,
-            popup=city,  # keep popup simple for clarity
-            icon=folium.Icon(color="blue" if city != "All data" else "green")
+            radius=10,
+            color=color,
+            fill=True,
+            fill_opacity=0.6,
+            tooltip=city
         ).add_to(m)
 
-    # Render map
     map_data = st_folium(m, width=700, height=500)
 
-    # Show the exact last_clicked object on screen
-    last_click = map_data.get("last_clicked")
-    st.write("🧭 last_clicked data:", last_click)
+    click = map_data.get("last_clicked")
+    st.write("🧭 last_clicked data:", click)
+
+    if click:
+        lat, lng = int(click["lat"]), int(click["lng"])
+        for city, (city_lat, city_lng) in CITY_DATA.items():
+            if int(city_lat) == lat and int(city_lng) == lng:
+                st.session_state["selected_city"] = city
+                st.write(f"📍 You clicked near: {city}")
+                break

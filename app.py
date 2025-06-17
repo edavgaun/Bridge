@@ -34,7 +34,7 @@ with right_col:
     if city:
         st.subheader(f"Analysis for {city}")
 
-        view_type = st.radio("Select view:", ["EDA", "LDA Analysis"])
+        view_type = st.radio("Select analysis view:", ["EDA", "LDA Analysis"], horizontal=True)
 
         if view_type == "EDA":
             render_eda(city)

@@ -27,8 +27,8 @@ def render_city_map():
     click = map_data.get("last_clicked")
 
     if click:
-        lat, lng = round(click["lat"],1), round(click["lng"],1)
+        lat, lng = int(click["lat"]), int(click["lng"])
         for city, (city_lat, city_lng) in CITY_DATA.items():
-            if int(city_lat) == round(lat,1) and int(city_lng) == round(lng,1):
+            if int(city_lat) == lat and int(city_lng) == lng:
                 st.session_state["selected_city"] = city
                 break

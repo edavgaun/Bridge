@@ -10,7 +10,8 @@ CITY_DATA = {
 
 def render_city_map():
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
-    m.add_child(folium.LatLngPopup())  # to enable click capture
+    m.add_child(folium.ClickForLatLng(popup='Lat: {lat:.2f}<br>Lng: {lng:.2f}'))
+
 
     for city, coords in CITY_DATA.items():
         color = "blue" if city == "All data" else "red"

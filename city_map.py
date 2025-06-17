@@ -10,6 +10,7 @@ CITY_DATA = {
 
 def render_city_map():
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
+    m.add_child(folium.LatLngPopup())
 
     # FIXED: Use default folium icons to avoid broken image links
     for city, coords in CITY_DATA.items():

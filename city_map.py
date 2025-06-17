@@ -11,23 +11,18 @@ CITY_DATA = {
 def render_city_map():
     m = folium.Map(location=[29.5, -99.5], zoom_start=6)
 
+    # FIXED: Use default folium icons to avoid broken image links
     for city, coords in CITY_DATA.items():
         folium.Marker(
             location=coords,
             tooltip=city,
-            popup=f"Active: {city}"
+            popup=city,  # keep popup simple for clarity
+            icon=folium.Icon(color="blue" if city != "All data" else "green")
         ).add_to(m)
 
+    # Render map
     map_data = st_folium(m, width=700, height=500)
 
-    try:
-        click = map_data["last_clicked"]
-        clicked_lat = int(click["lat"])
-        clicked_lng = int(click["lng"])
-
-        for city, (lat, lng) in CITY_DATA.items():
-            if int(lat) == clicked_lat and int(lng) == clicked_lng:
-                st.session_state["selected_city"] = city
-                st.rerun()
-    except:
-        pass
+    # Show the exact last_clicked object on screen
+    last_click = map_data.get("last_clicked")
+    st.write("🧭 last_clicked data:", last_click)

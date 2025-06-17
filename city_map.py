@@ -13,10 +13,10 @@ def render_city_map():
     m.add_child(folium.LatLngPopup())  # to enable click capture
 
     for city, coords in CITY_DATA.items():
-        color = "green" if city == "All data" else "blue"
+        color = "blue" if city == "All data" else "red"
         folium.CircleMarker(
             location=coords,
-            radius=10,
+            radius=5,
             color=color,
             fill=True,
             fill_opacity=0.6,
@@ -26,12 +26,10 @@ def render_city_map():
     map_data = st_folium(m, width=700, height=500)
 
     click = map_data.get("last_clicked")
-    st.write("🧭 last_clicked data:", click)
 
     if click:
-        lat, lng = int(click["lat"]), int(click["lng"])
+        lat, lng = round(click["lat"],1), round(click["lng"],1)
         for city, (city_lat, city_lng) in CITY_DATA.items():
-            if int(city_lat) == lat and int(city_lng) == lng:
+            if int(city_lat) == round(lat,1) and int(city_lng) == round(lng,1):
                 st.session_state["selected_city"] = city
-                st.write(f"📍 You clicked near: {city}")
                 break

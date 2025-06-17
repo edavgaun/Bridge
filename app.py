@@ -30,7 +30,6 @@ with left_col:
 # RIGHT: show view based on selected city
 with right_col:
     city = st.session_state.get("selected_city", None)
-    st.write("RAW city from session_state:", city)
 
     if city:
         st.subheader(f"Analysis for {city}")
@@ -42,9 +41,6 @@ with right_col:
 
         elif view_type == "LDA Analysis":
             file_map = get_html_file_map()
-
-            st.write("DEBUG file_map:", file_map)
-            st.write("DEBUG city:", city)
             
             # Use exact match for city names from LDA filenames
             if city in file_map:
